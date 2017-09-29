@@ -1,0 +1,6 @@
+.idea
+venv
+*.iml
+.vagrant
+.DS_Store
+__pycache__

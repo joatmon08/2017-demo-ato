@@ -1,0 +1,5 @@
+python-vagrant
+pytest
+behave
+docker
+ansible
