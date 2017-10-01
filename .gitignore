@@ -4,3 +4,4 @@ venv
 .vagrant
 .DS_Store
 __pycache__
+playbook/site.retry

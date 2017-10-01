@@ -92,21 +92,5 @@ fi
 
 systemctl enable docker
 
-echo "=== INSTALLING OVS-DOCKER ==="
-cd /usr/bin
-wget https://raw.githubusercontent.com/openvswitch/ovs/master/utilities/ovs-docker
-if [ $? -ne 0 ]; then
-    echo "FAILED TO GET OVS-DOCKER UTILITY"
-    exit 1
-fi
-chmod a+rwx ovs-docker
-
-echo "=== CHECKING OVS-DOCKER ==="
-output=`ls /usr/bin | grep ovs-docker`
-if [ -z "${output}" ]; then
-    echo "FAILED TO INSTALL OVS-DOCKER"
-    exit 1
-fi
-
 echo "=== BOOTSTRAP COMPLETED SUCCESSFULLY! ==="
 exit 0

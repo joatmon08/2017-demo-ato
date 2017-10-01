@@ -1,0 +1,33 @@
+---
+- set_fact:
+    addresses: "{{ groups['switches'] | difference([inventory_hostname])| map('extract', hostvars, ['ansible_eth1', 'ipv4', 'address']) | join(',') }}"
+- set_fact:
+    veth0: "veth{{ ansible_date_time.minute }}{{ ansible_date_time.second }}0"
+- set_fact:
+    veth1: "veth{{ ansible_date_time.minute }}{{ ansible_date_time.second }}1"
+
+- name: Create Open vSwitch bridge
+  openvswitch_bridge:
+    bridge: "{{ bridge_name }}"
+    state: present
+- name: Create the pair of {{ veth0 }} and {{ veth1 }}
+  command: ip link add {{ veth0 }} type veth peer name {{ veth1 }}
+- name: Create Open vSwitch port
+  openvswitch_port:
+    bridge: "{{ bridge_name }}"
+    port: "{{ veth1 }}"
+    state: present
+- name: Add to the bridge
+  command: brctl addif {{ container_network }} {{ veth0 }}
+- name: Bring up the link {{ veth1 }}
+  command: ip link set {{ veth1 }} up
+- name: Bring up the link {{ veth0 }}
+  command: ip link set {{ veth0 }} up
+- name: Create GRE Tunnel
+  openvswitch_port:
+    bridge: "{{ bridge_name }}"
+    port: gre0
+    state: present
+    set: interface gre0 type=gre options:remote_ip={{ item }}
+  with_items:
+    - "{{ addresses }}"

@@ -1,0 +1,7 @@
+# The global variable file for openvswitch
+
+# Bridge Name
+bridge_name: br-int
+
+# Container Network Name
+container_network: docker0
