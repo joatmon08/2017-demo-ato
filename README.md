@@ -41,3 +41,9 @@ Create Docker network with custom bridge name!
 docker network create -o "com.docker.network.bridge.name"="rlw" hi
 ```
 
+
+```
+[Service]
+ExecStart=
+ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock --cluster-store=consul://127.0.0.1:8500 --cluster-advertise=eth1:2375
+```

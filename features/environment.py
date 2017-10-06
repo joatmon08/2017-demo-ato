@@ -11,5 +11,4 @@ def before_scenario(context, scenario):
 
 
 def after_scenario(context, scenario):
-    context.host1_container_network.destroy()
-    context.host2_container_network.destroy()
+    print("hi")

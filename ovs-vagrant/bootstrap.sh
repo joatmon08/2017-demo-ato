@@ -56,6 +56,24 @@ isactive "openvswitch"
 
 systemctl enable openvswitch
 
+echo "=== INSTALLING CONSUL ==="
+wget https://releases.hashicorp.com/consul/0.9.3/consul_0.9.3_linux_amd64.zip
+unzip consul_0.9.3_linux_amd64.zip
+mv consul /usr/bin/
+echo "" > /tmp/consul_watch.log
+
+echo $'[Unit]
+Description=consul
+
+[Service]
+ExecStart=/usr/bin/consul agent -config-file /opt/consul/config/config.json -server -dev -ui -client 0.0.0.0
+
+[Install]
+WantedBy=multi-user.target' > /etc/systemd/system/consul.service
+
+echo "=== TURNING ON CONSUL ==="
+isactive "consul"
+
 echo $'[dockerrepo]
 name=Docker Repository
 baseurl=https://yum.dockerproject.org/repo/main/centos/7/
@@ -78,7 +96,7 @@ echo "=== CONFIGURE DOCKER ==="
 mkdir -p /etc/systemd/system/docker.service.d
 echo $'[Service]
 ExecStart=
-ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock' > /etc/systemd/system/docker.service.d/override.conf
+ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock --cluster-store=consul://127.0.0.1:8500 --cluster-advertise=eth1:2375' > /etc/systemd/system/docker.service.d/override.conf
 
 echo "=== TURNING ON DOCKER ==="
 isactive "docker"
