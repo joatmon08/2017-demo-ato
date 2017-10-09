@@ -63,6 +63,9 @@ class AnsiblePlaybook:
             pbex = PlaybookExecutor(playbooks=[self.playbook_path], inventory=self.inventory,
                                     variable_manager=self.variable_manager, loader=self.loader,
                                     options=self.options, passwords=self.passwords)
-            return pbex.run()
+            return_code = pbex.run()
+            if return_code != 0:
+                raise AnsiblePlaybookError('ansible playbook returned error code {0}'.format(return_code))
+            return return_code
         except Exception as e:
             raise AnsiblePlaybookError(str(e))

@@ -12,16 +12,6 @@ except Exception as e:
     logging.error(e)
 
 
-@app.errorhandler(AnsiblePlaybookNotFound)
-def not_found_handler(error):
-    return error.message, 404
-
-
-@app.errorhandler(AnsiblePlaybookError)
-def ansible_playbook_error_handler(error):
-    return error, 500
-
-
 @app.route('/')
 def index():
     return jsonify({'status': 'healthy'})
@@ -29,12 +19,17 @@ def index():
 
 @app.route('/runner/play', methods=['POST'])
 def play():
-    extra_vars = request.json
     playbook = AnsiblePlaybook(app.config['APP_PLAYBOOK_PATH'], app.config['APP_PLAYBOOK_NAME'])
+    extra_vars = request.get_json()
     for key, var in extra_vars.items():
         playbook.add_extra_vars(key, var)
-    return_code = playbook.execute()
-    return jsonify({'playbook_return_code': str(return_code)})
+    try:
+        return_code = playbook.execute()
+    except AnsiblePlaybookNotFound as e:
+        return jsonify({'message': e.message}), 404
+    except AnsiblePlaybookError as e:
+        return jsonify({'message': e.message}), 500
+    return jsonify({'playbook_return_code': return_code})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=app.config['APP_PORT'], debug=True)
