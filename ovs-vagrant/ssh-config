@@ -1,0 +1,22 @@
+Host host1
+  HostName 192.168.205.10
+  User vagrant
+  Port 22
+  UserKnownHostsFile /dev/null
+  StrictHostKeyChecking no
+  PasswordAuthentication no
+  IdentityFile /root/ovs-vagrant/.vagrant/machines/host1/virtualbox/private_key
+  IdentitiesOnly yes
+  LogLevel FATAL
+
+Host host2
+  HostName 192.168.205.11
+  User vagrant
+  Port 22
+  UserKnownHostsFile /dev/null
+  StrictHostKeyChecking no
+  PasswordAuthentication no
+  IdentityFile /root/ovs-vagrant/.vagrant/machines/host2/virtualbox/private_key
+  IdentitiesOnly yes
+  LogLevel FATAL
+
