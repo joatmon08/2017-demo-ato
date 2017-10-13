@@ -1,0 +1,7 @@
+---
+# This Playbook would deploy the whole mongodb cluster with replication and sharding.
+
+- hosts: all
+  gather_facts: no
+  roles:
+  - role: openvswitch

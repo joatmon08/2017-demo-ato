@@ -1,0 +1,10 @@
+---
+version: '2'
+services:
+  runner:
+    image: ansible-runner:latest
+    ports:
+      - 8080:8080
+    environment:
+      - APP_PLAYBOOK_PATH=test_playbook
+      - APP_PLAYBOOK_NAME=site.yml
