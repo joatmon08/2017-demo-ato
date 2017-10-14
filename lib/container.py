@@ -19,7 +19,10 @@ class Network:
         ipam_config = types.IPAMConfig(
             pool_configs=[self.ipam_pool]
         )
-        self.network = self.client.networks.create(name, ipam=ipam_config)
+        options = {
+            "com.docker.network.bridge.name": name
+        }
+        self.network = self.client.networks.create(name, options=options, ipam=ipam_config)
 
     def destroy(self):
         self.network.remove()
