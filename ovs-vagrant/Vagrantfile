@@ -11,10 +11,9 @@ Vagrant.configure('2') do |config|
       vb.memory = '8192'
     end
 
-    host1.vm.provision :shell, inline: 'sudo mkdir -p /opt/consul/config && sudo chmod 777 /opt/consul/config'
-    host1.vm.provision :file, source: 'watch_handler.sh', destination: '/opt/consul/config/handler'
-    host1.vm.provision :file, source: 'config.json', destination: '/opt/consul/config/config.json'
     host1.vm.provision :shell, path: 'bootstrap.sh'
+    host1.vm.provision :file, source: 'config.json', destination: '/opt/consul/config/config.json'
+    host1.vm.provision :shell, inline: 'sudo systemctl start consul'
   end
 
   config.vm.define 'host2' do |host2|
@@ -26,9 +25,8 @@ Vagrant.configure('2') do |config|
       vb.memory = '8192'
     end
 
-    host2.vm.provision :shell, inline: 'sudo mkdir -p /opt/consul/config && sudo chmod 777 /opt/consul/config'
-    host2.vm.provision :file, source: 'watch_handler.sh', destination: '/opt/consul/config/handler'
-    host2.vm.provision :file, source: 'config.json', destination: '/opt/consul/config/config.json'
     host2.vm.provision :shell, path: 'bootstrap.sh'
+    host2.vm.provision :shell, inline: 'sudo systemctl stop consul'
+    host2.vm.provision :shell, inline: 'sudo systemctl disable consul'
   end
 end

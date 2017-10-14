@@ -3,7 +3,7 @@
     {
         "type": "keyprefix",
         "prefix": "docker/network/v1.0/endpoint",
-        "handler": "/opt/consul/config/handler"
+        "handler": "CONSUL_HANDLER_RUNNER=http://192.168.205.1:8080 /opt/consul/config/handler"
     }
   ]
 }

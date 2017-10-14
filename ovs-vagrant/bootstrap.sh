@@ -71,8 +71,11 @@ ExecStart=/usr/bin/consul agent -config-file /opt/consul/config/config.json -ser
 [Install]
 WantedBy=multi-user.target' > /etc/systemd/system/consul.service
 
-echo "=== TURNING ON CONSUL ==="
-isactive "consul"
+echo "=== CONFIGURE CONSUL ==="
+yum -y install git
+mkdir -p /opt/consul/config && chmod 777 /opt/consul/config
+git clone -b artifacts https://github.com/joatmon08/docker-consul-handler.git /opt/consul/config
+chmod +x /opt/consul/config/handler
 
 echo $'[dockerrepo]
 name=Docker Repository
