@@ -1,4 +1,4 @@
-# Automating Connectivity
+# Demo for All Things Open 2017
 
 This creates two hosts with Open vSwitch installed to demonstrate
 the general principles of automating switches and evaluating
@@ -6,7 +6,13 @@ that they are able to connect to each other when a container
 network is created.
 
 The code serves as an example for those who want to automate
-actions in their network. It is not required.
+actions in their network. It omits important features that enable it
+to run in production.
+
+## Dependencies
+1. [docker-consul-handler](https://github.com/joatmon08/docker-consul-handler)
+1. [ansible-runner](https://github.com/joatmon08/ansible-runner) : This needs
+to be running on your Ansible control host to execute the OVS playbook.
 
 ## References
 * [Multi-Host Networking](http://docker-k8s-lab.readthedocs.io/en/latest/docker/docker-ovs.html)

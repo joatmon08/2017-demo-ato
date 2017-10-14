@@ -6,8 +6,9 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ../ovs-vagrant/ssh-config:/root/.ssh/config
-      - ../ovs-vagrant/.vagrant/machines:/root/ovs-vagrant/.vagrant/machines
+      - ./ovs-vagrant/ssh-config:/root/.ssh/config
+      - ./ovs-vagrant/.vagrant/machines:/root/ovs-vagrant/.vagrant/machines
+      - ./playbook:/runner/playbook
     environment:
       - APP_PLAYBOOK_PATH=playbook
       - APP_PLAYBOOK_NAME=site.yml
