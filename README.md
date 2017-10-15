@@ -1,55 +1,67 @@
 # Demo for All Things Open 2017
 
-This creates two hosts with Open vSwitch installed to demonstrate
-the general principles of automating switches and evaluating
-that they are able to connect to each other when a container
-network is created.
+This project automates the [Kubernetes lab on Multi-Host Networking](http://docker-k8s-lab.readthedocs.io/en/latest/docker/docker-ovs.html),
+where two Docker hosts have containers that need to route to each other. This is
+not a recommended set up, but it is an interesting exercise in automation and
+testing. The focus is on unit and integration tests to
+build confidence in automation before applying it end-to-end.
 
-The code serves as an example for those who want to automate
-actions in their network. It omits important features that enable it
-to run in production.
+**The code serves as an example. It omits important features that enable it
+to run in production.**
 
 ## Dependencies
 1. [docker-consul-handler](https://github.com/joatmon08/docker-consul-handler)
 1. [ansible-runner](https://github.com/joatmon08/ansible-runner) : This needs
 to be running on your Ansible control host to execute the OVS playbook.
+1. [Vagrant](https://www.vagrantup.com/downloads.html)
+
+## Automation Workflow
+1. When creating a Docker network on Host 1, the Docker network is updated
+in the Consul KV store. There is no Consul KV store on Host 2. _The Docker
+network must have a bridge name that is the same as the network!!!_
+1. The Consul KV store on Host 1 has a watcher in its configuration, which
+fires a handler that calls a container called "ansible-runner" (see Dependencies).
+The ansible-runner is hosted on a Docker host, exposed on port 8080 and its
+sole responsibility is to run a playbook.
+1. The ansible-runner runs the "playbook" to configure openvswitch on each
+host. For reference, the veth interfaces are based on the minute and second
+of creation.
+
+## Testing Workflow
+### Unit Tests
+To Do
+
+### Integration Tests
+The integration tests contain a simple smoke test that creates two containers
+on the Docker network and issues a ping call between them to determine if
+there is connectivity. See the features directory.
+
+#### Pre-Requisites
+* Python 3.
+* You must run `pip install -r requirements.txt`.
+
+#### Run
+```
+behave
+```
 
 ## References
 * [Multi-Host Networking](http://docker-k8s-lab.readthedocs.io/en/latest/docker/docker-ovs.html)
 
-## Vagrant Up
-Add output of `vagrant ssh-config` to ~/.ssh/config.
+## Manual References
+## Vagrant SSH
+Use `vagrant ssh-config` to retrieve the SSH configuration for the hosts.
+You can pipe this to ssh-config and edit the configuration for the correct
+identity file.
 
-## To Test
-### host1
-```
-docker run -d --name container1 centos:7 /bin/bash -c "while true; do sleep 3600; done"
-docker exec -it container1 ping -c 3 172.17.0.3
-```
-
-### host2
-```
-docker run -d --name container1 centos:7 /bin/bash -c "while true; do sleep 3600; done"
-docker run -d --name container2 centos:7 /bin/bash -c "while true; do sleep 3600; done"
-docker rm -f container1
-docker exec -it container2 ping -c 3 172.17.0.2
-```
-
-
-## Ansible Playbook
-```
-ansible-playbook site.yml -b -i hosts --extra-vars "container_network=test"
-```
-
-## Docker network creation
-Create Docker network with custom bridge name!
+## Docker Network Creation
+Create Docker network with custom bridge name:
 ```
 docker network create -o "com.docker.network.bridge.name"="rlw" hi
 ```
 
-
+## Open vSwitch Ansible Playbook
+To run the Ansible playbook for Open vSwitch on its own, run:
 ```
-[Service]
-ExecStart=
-ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock --cluster-store=consul://127.0.0.1:8500 --cluster-advertise=eth1:2375
+ansible-playbook site.yml -b -i hosts --extra-vars "container_network=test"
 ```

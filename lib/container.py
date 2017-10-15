@@ -9,8 +9,10 @@ class Client:
 
     LOOP_COMMAND = '/bin/sh -c "while true; do echo hello world; sleep 1; done"'
 
-    def __init__(self, host, port=2375):
-        os.environ['DOCKER_HOST'] = 'http://{0}:{1}'.format(host, port)
+    def __init__(self, host=None, port=2375):
+        os.environ['DOCKER_HOST'] = 'unix://var/run/docker.sock'
+        if host is not None:
+            os.environ['DOCKER_HOST'] = 'http://{0}:{1}'.format(host, port)
         self.client = docker.from_env()
         self.network = None
 
@@ -36,9 +38,15 @@ class Client:
     def connect_container(self, container, ip_address):
         self.network.connect(container, ipv4_address=ip_address)
 
-    def create_container(self, image, network='bridge'):
-        return self.client.containers.run(image, self.LOOP_COMMAND, \
-            detach=True, network=network)
+    def create_container(self, image, network='bridge', volumes=None, \
+        ports=None, environment=None):
+        if volumes is None or ports is None or environment is None:
+            return self.client.containers.run(image, self.LOOP_COMMAND, \
+                detach=True, network=network)
+        else:
+            return self.client.containers.run(image, detach=True, \
+                network=network, volumes=volumes, ports=ports, \
+                environment=environment)
 
     def inspect_container(self, container):
         return self.client.containers.get(container.id)
