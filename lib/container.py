@@ -41,7 +41,8 @@ class Client:
     def create_container(self, image, network='bridge', volumes=None, \
         ports=None, environment=None):
         if volumes is None or ports is None or environment is None:
-            return self.client.containers.run(image, self.LOOP_COMMAND, \
+            return self.client.containers.run(image, \
+                command=self.LOOP_COMMAND, \
                 detach=True, network=network)
         else:
             return self.client.containers.run(image, detach=True, \

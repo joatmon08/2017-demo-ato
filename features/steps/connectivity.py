@@ -1,5 +1,6 @@
 from behave import *
 import smoke
+import time
 
 
 @given('I have a gateway to my datacenter')
@@ -17,4 +18,5 @@ def step_impl(context, network_name, cidr_block):
 
 @then('I should set up a route from that network to my datacenter')
 def step_impl(context):
+    time.sleep(5)
     smoke.run(context.host1_client, context.host2_client, context.network_name, context.cidr_block)

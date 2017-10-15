@@ -38,9 +38,21 @@ The integration tests contain a simple smoke test that creates two containers
 on the Docker network and issues a ping call between them to determine if
 there is connectivity. See the features directory.
 
+The BDD feature:
+1. Creates two hosts using Vagrant, host1 on 192.168.205.10 and host2
+on 192.168.205.11.
+1. Creates the ansible-runner container on the Vagrant host, with playbook
+and SSH configuration mounted.
+1. Creates the container network with name and CIDR block listed in
+`features/connectivity.feature`.
+1. Runs a smoke test under smoke.py. This creates a container on host1
+and a container on host2, then issues a ping command between the containers.
+
 #### Pre-Requisites
 * Python 3.
 * You must run `pip install -r requirements.txt`.
+* Vagrant
+* [joatmon08/ansible-runner:latest](https://hub.docker.com/r/joatmon08/ansible-runner/)
 
 #### Run
 ```

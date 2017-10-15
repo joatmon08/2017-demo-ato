@@ -1,7 +1,7 @@
 import os
 from lib import container
 
-ANSIBLE_RUNNER_IMAGE = 'ansible-runner:latest'
+ANSIBLE_RUNNER_IMAGE = 'joatmon08/ansible-runner:latest'
 
 ANSIBLE_RUNNER_MOUNTS = {
     'ovs-vagrant/ssh-config': {
