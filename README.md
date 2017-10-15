@@ -27,6 +27,8 @@ sole responsibility is to run a playbook.
 host. For reference, the veth interfaces are based on the minute and second
 of creation.
 
+![Image of Open vSwitch Automation Workflow](images/2017-ato-demo-setup.png)
+
 ## Testing Workflow
 ### Unit Tests
 To Do
