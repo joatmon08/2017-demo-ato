@@ -12,7 +12,6 @@ bootstrap: virtualenv
 ifneq ($(wildcard requirements.txt),)
 	venv/bin/pip install -r requirements.txt
 endif
-	make clean
 
 virtualenv:
 	virtualenv -p python3 venv

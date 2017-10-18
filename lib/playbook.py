@@ -9,22 +9,6 @@ from ansible.vars.manager import VariableManager
 from ansible.inventory.manager import InventoryManager
 from ansible.executor.playbook_executor import PlaybookExecutor
 import logging
-from ansible.plugins.callback import CallbackBase
-
-class ResultCallback(CallbackBase):
-    """A sample callback plugin used for performing an action as results come in
-
-    If you want to collect all results into a single object for processing at
-    the end of the execution, look into utilizing the ``json`` callback plugin
-    or writing your own custom callback plugin
-    """
-    def v2_runner_on_ok(self, result, **kwargs):
-        """Print a json representation of the result
-
-        This method could store the result in an instance attribute for retrieval later
-        """
-        host = result._host
-        return json.dumps({result._result}, indent=4)
 
 
 class AnsiblePlaybookNotFound(Exception):
@@ -75,6 +59,7 @@ class AnsiblePlaybook:
         self.variable_manager.extra_vars = extra_vars
 
     def execute(self):
+        os.environ["ANSIBLE_HOST_KEY_CHECKING"] = False
         self.logger.info('executing playbook {0}'.format(self.playbook_path))
         try:
             pbex = PlaybookExecutor(playbooks=[self.playbook_path], inventory=self.inventory,
