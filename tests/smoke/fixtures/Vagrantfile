@@ -1,0 +1,33 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure('2') do |config|
+  config.vm.define 'host1' do |host1|
+    host1.vm.box = 'openvswitch'
+
+    host1.vm.network 'private_network', ip: '192.168.205.10'
+
+    host1.vm.provider 'virtualbox' do |vb|
+      vb.memory = '8192'
+    end
+
+    host1.vm.provision :shell, path: 'install-docker.sh'
+    host1.vm.provision :file, source: 'config.json', destination: '/opt/consul/config/config.json'
+    host1.vm.provision :shell, inline: 'sudo systemctl start consul'
+    host1.vm.provision :shell, inline: 'sudo systemctl enable consul'
+  end
+
+  config.vm.define 'host2' do |host2|
+    host2.vm.box = 'openvswitch'
+
+    host2.vm.network 'private_network', ip: '192.168.205.11'
+
+    host2.vm.provider 'virtualbox' do |vb|
+      vb.memory = '8192'
+    end
+
+    host2.vm.provision :shell, path: 'install-docker.sh'
+    host2.vm.provision :shell, inline: 'sudo systemctl stop consul'
+    host2.vm.provision :shell, inline: 'sudo systemctl disable consul'
+  end
+end

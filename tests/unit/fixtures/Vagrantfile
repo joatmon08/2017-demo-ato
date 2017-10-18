@@ -3,13 +3,12 @@
 
 Vagrant.configure('2') do |config|
   config.vm.define 'unit' do |unit|
-    unit.vm.box = 'centos/7'
+    unit.vm.box = 'openvswitch'
 
     unit.vm.provider 'virtualbox' do |vb|
       vb.memory = '8192'
     end
 
-    unit.vm.provision :shell, path: 'install-ovs.sh'
     unit.vm.provision :shell, inline: 'sudo brctl addbr test'
   end
 end

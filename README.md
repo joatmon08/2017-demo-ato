@@ -15,6 +15,12 @@ to run in production.**
 to be running on your Ansible control host to execute the OVS playbook.
 1. [Vagrant](https://www.vagrantup.com/downloads.html)
 
+## Before You Start
+For ease of use, generate the openvswitch box under ovs-vagrant.
+1. Start the ovs VM using `vagrant up` under ovs-vagrant.
+1. Issue `vagrant package --output openvswitch.box`.
+1. Add the box to Vagrant with `vagrant box add openvswitch openvswitch.box`.
+
 ## Automation Workflow
 1. When creating a Docker network on Host 1, the Docker network is updated
 in the Consul KV store. There is no Consul KV store on Host 2. _The Docker

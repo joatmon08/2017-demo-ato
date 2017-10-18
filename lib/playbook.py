@@ -58,7 +58,7 @@ class AnsiblePlaybook:
         self.variable_manager.extra_vars = extra_vars
 
     def execute(self):
-        os.environ["ANSIBLE_HOST_KEY_CHECKING"] = False
+        os.environ["ANSIBLE_HOST_KEY_CHECKING"] = 'False'
         self.logger.info('executing playbook {0}'.format(self.playbook_path))
         try:
             pbex = PlaybookExecutor(playbooks=[self.playbook_path], inventory=self.inventory,

@@ -58,4 +58,8 @@ isactive "openvswitch"
 systemctl enable openvswitch
 
 echo "=== INSTALLED OPENVSWITCH! ==="
+yum clean all
+rm -rf /var/cache/yum
+cat /dev/null > ~/.bash_history && history -c
+
 exit 0
