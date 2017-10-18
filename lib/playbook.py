@@ -36,7 +36,6 @@ class AnsiblePlaybook:
         self.variable_manager.extra_vars = {
             'ansible_become_pass': 'vagrant'
         }
-        self.results_callback = ResultCallback()
 
     @staticmethod
     def _set_options():
