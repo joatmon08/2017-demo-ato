@@ -1,6 +1,6 @@
 import os
 
-class Unit:
+class UnitTest:
     def __init__(self, hosts_file):
         self.hosts_file = hosts_file
 
