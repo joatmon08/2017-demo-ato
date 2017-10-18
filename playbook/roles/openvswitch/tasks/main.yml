@@ -28,6 +28,6 @@
     bridge: "{{ bridge_name }}"
     port: gre0
     state: present
-    set: interface gre0 type=gre options:remote_ip={{ item }}
+    set: interface gre0 type=gre options:remote_ip={{ item if item else '127.0.0.1' }}
   with_items:
     - "{{ addresses }}"

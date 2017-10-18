@@ -11,9 +11,11 @@ Vagrant.configure('2') do |config|
       vb.memory = '8192'
     end
 
-    host1.vm.provision :shell, path: 'bootstrap.sh'
+    host1.vm.provision :shell, path: 'install-ovs.sh'
+    host1.vm.provision :shell, path: 'install-docker.sh'
     host1.vm.provision :file, source: 'config.json', destination: '/opt/consul/config/config.json'
     host1.vm.provision :shell, inline: 'sudo systemctl start consul'
+    host1.vm.provision :shell, inline: 'sudo systemctl enable consul'
   end
 
   config.vm.define 'host2' do |host2|
@@ -25,7 +27,8 @@ Vagrant.configure('2') do |config|
       vb.memory = '8192'
     end
 
-    host2.vm.provision :shell, path: 'bootstrap.sh'
+    host2.vm.provision :shell, path: 'install-ovs.sh'
+    host2.vm.provision :shell, path: 'install-docker.sh'
     host2.vm.provision :shell, inline: 'sudo systemctl stop consul'
     host2.vm.provision :shell, inline: 'sudo systemctl disable consul'
   end
