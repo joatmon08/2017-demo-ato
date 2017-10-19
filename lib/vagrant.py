@@ -28,13 +28,17 @@ class SSHConfig:
 class Gateway:
 
     def __init__(self, vagrantfile):
-        self.vagrant = vagrant.Vagrant(vagrantfile, quiet_stdout=False)
+        self.vagrantfile = vagrantfile
+        self.vagrant = vagrant.Vagrant(self.vagrantfile, quiet_stdout=False)
 
     def create(self):
         self.vagrant.up()
 
     def destroy(self):
         self.vagrant.destroy()
+
+    def raw_ssh_config(self):
+        return self.vagrant.ssh_config()
 
     def ssh_config(self):
         return SSHConfig(self.vagrant.ssh_config())

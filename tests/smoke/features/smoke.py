@@ -33,7 +33,7 @@ def run(host1_client, host2_client, network_name, cidr_block):
     ip_addresses = _get_ip_addresses(cidr_block, 5, 2)
     container1 = TestContainer(host1_client, ip_addresses[0], network_name)
     container2 = TestContainer(host2_client, ip_addresses[1], network_name)
-    time.sleep(2)
+    time.sleep(5)
     output1 = container1.ping(container2.ip_address)
     output2 = container2.ping(container1.ip_address)
     container1.destroy()

@@ -5,7 +5,7 @@ Host host1
   UserKnownHostsFile /dev/null
   StrictHostKeyChecking no
   PasswordAuthentication no
-  IdentityFile /root/ovs-vagrant/.vagrant/machines/host1/virtualbox/private_key
+  IdentityFile /root/ovs-vagrant/.vagrant.d/boxes/openvswitch/0/virtualbox/vagrant_private_key
   IdentitiesOnly yes
   LogLevel FATAL
 
@@ -16,7 +16,6 @@ Host host2
   UserKnownHostsFile /dev/null
   StrictHostKeyChecking no
   PasswordAuthentication no
-  IdentityFile /root/ovs-vagrant/.vagrant/machines/host2/virtualbox/private_key
+  IdentityFile /root/ovs-vagrant/.vagrant.d/boxes/openvswitch/0/virtualbox/vagrant_private_key
   IdentitiesOnly yes
   LogLevel FATAL
-
