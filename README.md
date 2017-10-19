@@ -35,14 +35,40 @@ of creation.
 
 ![Image of Open vSwitch Automation Workflow](images/2017-ato-demo-setup.png)
 
-## Testing Workflow
+## Tests
+To more easily run the tests, a Python makefile has the set of tasks
+and dependencies to facilitate tests.
+
 ### Unit Tests
-To Do
+Unit tests include:
+* the check of Ansible syntax of the playbook
+* tests to check the commands in the Ansible playbook (such as bridge)
+
+When it checks the Ansible playbook, it creates an openvswitch Vagrant box
+and quickly runs the playbook against it. It uses pytest to assert if the
+playbook ran to completion.
+
+#### Pre-Requisites
+* Python3
+* pytest
+* Vagrant
+
+#### Run
+To run, be sure to set the PYTHONPATH, otherwise pytest will
+have trouble running.
+```
+PYTHONPATH=$(pwd) make unit
+```
 
 ### Integration Tests
 The integration tests contain a simple smoke test that creates two containers
 on the Docker network and issues a ping call between them to determine if
-there is connectivity. See the features directory.
+there is connectivity. See the `tests/smoke/features` directory for more
+information.
+
+**This test takes about 10-15 minutes to run, since it has to create two
+hosts, install Docker, pull images, etc. Optimizations are not
+implemented in this code base.**
 
 The BDD feature:
 1. Creates two hosts using Vagrant, host1 on 192.168.205.10 and host2
@@ -62,13 +88,13 @@ and a container on host2, then issues a ping command between the containers.
 
 #### Run
 ```
-behave
+PYTHONPATH=$(pwd) make integration
 ```
 
 ## References
 * [Multi-Host Networking](http://docker-k8s-lab.readthedocs.io/en/latest/docker/docker-ovs.html)
 
-## Manual References
+## Manual Commands
 ## Vagrant SSH
 Use `vagrant ssh-config` to retrieve the SSH configuration for the hosts.
 You can pipe this to ssh-config and edit the configuration for the correct

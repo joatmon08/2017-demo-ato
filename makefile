@@ -2,6 +2,9 @@
 
 unit: check_ansible_syntax check_openvswitch_playbook
 
+integration: bootstrap
+	sh -c '. venv/bin/activate; cd tests/smoke && behave'
+
 check_ansible_syntax: bootstrap
 	sh -c '. venv/bin/activate; ansible-playbook playbook/site.yml -i playbook/hosts --syntax-check'
 
