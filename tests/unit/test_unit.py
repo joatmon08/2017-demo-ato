@@ -3,8 +3,8 @@ import pytest
 from lib import vagrant, config, playbook
 
 TEST_FIXTURE_PATH = 'tests/unit/fixtures'
-HOSTS_FILE = '{0}/hosts'.format(TEST_FIXTURE_PATH)
-VAGRANTFILE = '{0}/{1}'.format(os.getcwd(), TEST_FIXTURE_PATH)
+HOSTS_FILE = "{0}/hosts".format(TEST_FIXTURE_PATH)
+VAGRANTFILE = "{0}/{1}".format(os.getcwd(), TEST_FIXTURE_PATH)
 unit_box = vagrant.Gateway(vagrantfile=VAGRANTFILE)
 unit_test_config = config.UnitTest(HOSTS_FILE)
 

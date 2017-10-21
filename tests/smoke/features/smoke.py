@@ -38,5 +38,5 @@ def run(host1_client, host2_client, network_name, cidr_block):
     output2 = container2.ping(container1.ip_address)
     container1.destroy()
     container2.destroy()
-    assert _lost_packets(output1) is False, "Container on host1 cannot reach container on host2"
-    assert _lost_packets(output2) is False, "Container on host2 cannot reach container on host1"
+    assert _lost_packets(output1) is False, 'Container on host1 cannot reach container on host2'
+    assert _lost_packets(output2) is False, 'Container on host2 cannot reach container on host1'

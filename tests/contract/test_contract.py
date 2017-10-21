@@ -1,18 +1,19 @@
 import pytest
 import requests
 import json
+import os
 import _thread
 import time
-from lib import vagrant, container
-import os
 from http.server import HTTPServer, BaseHTTPRequestHandler
+from lib import vagrant, container
+
 
 CONTRACT_HOST_IP_ADDRESS = '192.168.205.9'
 
 TEST_CAPTURE_PORT = 8080
 
 TEST_FIXTURE_PATH = 'tests/contract/fixtures'
-VAGRANTFILE = '{0}/{1}'.format(os.getcwd(), TEST_FIXTURE_PATH)
+VAGRANTFILE = "{0}/{1}".format(os.getcwd(), TEST_FIXTURE_PATH)
 
 CONTRACT_NETWORK_NAME = str(int(time.time()))
 

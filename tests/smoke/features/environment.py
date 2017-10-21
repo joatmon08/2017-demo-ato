@@ -1,7 +1,7 @@
 from lib import vagrant, container, runner, config
 import os
 
-VAGRANTFILE = '{0}/fixtures'.format(os.getcwd())
+VAGRANTFILE = "{0}/fixtures".format(os.getcwd())
 
 def before_scenario(context, scenario):
     context.gateway = vagrant.Gateway(vagrantfile=VAGRANTFILE)

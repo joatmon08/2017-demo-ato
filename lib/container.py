@@ -12,7 +12,7 @@ class Client:
     def __init__(self, host=None, port=2375):
         os.environ['DOCKER_HOST'] = 'unix://var/run/docker.sock'
         if host is not None:
-            os.environ['DOCKER_HOST'] = 'http://{0}:{1}'.format(host, port)
+            os.environ['DOCKER_HOST'] = "http://{0}:{1}".format(host, port)
         self.client = docker.from_env()
         self.network = None
 

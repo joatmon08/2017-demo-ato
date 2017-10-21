@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import os
 import copy
 from collections import namedtuple
@@ -12,8 +10,8 @@ import logging
 
 
 class AnsiblePlaybookNotFound(Exception):
-    def __init__(self, playbook_path=""):
-        self.message = 'playbook {0} does not exist'.format(playbook_path)
+    def __init__(self, playbook_path=''):
+        self.message = "playbook {0} does not exist".format(playbook_path)
 
 
 class AnsiblePlaybookError(Exception):
@@ -25,7 +23,7 @@ class AnsiblePlaybook:
 
     def __init__(self, playbook_path, playbook, hosts_file, logger=None):
         self.logger = logger or logging.getLogger(__name__)
-        self.playbook_path = '{0}/{1}'.format(playbook_path, playbook)
+        self.playbook_path = "{0}/{1}".format(playbook_path, playbook)
         if not os.path.exists(self.playbook_path):
             raise AnsiblePlaybookNotFound(self.playbook_path)
         self.loader = DataLoader()
@@ -58,7 +56,7 @@ class AnsiblePlaybook:
         self.variable_manager.extra_vars = extra_vars
 
     def execute(self):
-        self.logger.info('executing playbook {0}'.format(self.playbook_path))
+        self.logger.info("executing playbook {0}".format(self.playbook_path))
         try:
             pbex = PlaybookExecutor(playbooks=[self.playbook_path],
                                     inventory=self.inventory,
@@ -68,7 +66,7 @@ class AnsiblePlaybook:
                                     passwords=self.passwords)
             return_code = pbex.run()
             if return_code != 0:
-                raise AnsiblePlaybookError('ansible playbook returned error code {0}'.format(return_code))
+                raise AnsiblePlaybookError("ansible playbook returned error code {0}".format(return_code))
             return return_code
         except Exception as e:
             raise AnsiblePlaybookError(str(e))
