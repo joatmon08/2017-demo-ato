@@ -1,6 +1,5 @@
 import os
 import pytest
-import subprocess
 from lib import vagrant, config, playbook
 
 TEST_FIXTURE_PATH = 'tests/unit/fixtures'

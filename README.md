@@ -17,6 +17,9 @@ to be running on your Ansible control host to execute the OVS playbook.
 
 ## Before You Start
 For ease of use, generate the openvswitch box under ovs-vagrant.
+You can issue `make openvswitch_box` to generate the box.
+
+To manually create the base box:
 1. Start the ovs VM using `vagrant up` under ovs-vagrant.
 1. Issue `vagrant package --output openvswitch.box`.
 1. Add the box to Vagrant with `vagrant box add openvswitch openvswitch.box`.
@@ -58,6 +61,24 @@ To run, be sure to set the PYTHONPATH, otherwise pytest will
 have trouble running.
 ```
 PYTHONPATH=$(pwd) make unit
+```
+
+### Contract Tests
+Contract/service tests checks the call of the docker-consul-handler
+against the playbook's expected input (container_network, for example).
+It creates a Vagrant box with the base minimum dependencies
+required for the handler.
+
+#### Pre-Requisites
+* Python3
+* pytest
+* Vagrant
+
+#### Run
+To run, be sure to set the PYTHONPATH, otherwise pytest will
+have trouble running.
+```
+PYTHONPATH=$(pwd) make contract
 ```
 
 ### Integration Tests

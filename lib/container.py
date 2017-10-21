@@ -16,18 +16,21 @@ class Client:
         self.client = docker.from_env()
         self.network = None
 
-    def create_network(self, name, cidr):
-        self.ipam_pool = types.IPAMPool(
-            subnet=cidr
-        )
-        ipam_config = types.IPAMConfig(
-            pool_configs=[self.ipam_pool]
-        )
-        options = {
-            'com.docker.network.bridge.name': name
-        }
-        self.network = self.client.networks.create(name, \
-            options=options, ipam=ipam_config)
+    def create_network(self, name, cidr=None):
+        if cidr is None:
+            self.network = self.client.networks.create(name)
+        else:
+            self.ipam_pool = types.IPAMPool(
+                subnet=cidr
+            )
+            ipam_config = types.IPAMConfig(
+                pool_configs=[self.ipam_pool]
+            )
+            options = {
+                'com.docker.network.bridge.name': name
+            }
+            self.network = self.client.networks.create(name, \
+                options=options, ipam=ipam_config)
 
     def set_network(self, name):
         self.network = self.client.networks.list(names=[name])[0]
@@ -40,7 +43,7 @@ class Client:
 
     def create_container(self, image, network='bridge', volumes=None, \
         ports=None, environment=None):
-        if volumes is None or ports is None or environment is None:
+        if volumes is None and ports is None and environment is None:
             return self.client.containers.run(image, \
                 command=self.LOOP_COMMAND, \
                 detach=True, network=network)

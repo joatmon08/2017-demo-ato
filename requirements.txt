@@ -3,3 +3,4 @@ pytest
 behave
 docker
 ansible
+requests
